@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,26 +13,30 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import com.example.scaffold2.ui.theme.Scaffold2Theme
 
 // Actividad principal de la aplicación
@@ -72,11 +77,35 @@ fun CustomScaffold() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopBar() {
+    var expanded by remember { mutableStateOf(false) } // Controla si el menú está desplegado
     TopAppBar(
 
         // Título de la barra superior
-        title = { Text(text = "Mis Películas") },
+        title = {
+            // Contenedor para centrar el texto
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = androidx.compose.ui.Alignment.Center
+            ) {
+                Text(text = "Mis Películas") // Texto centrado
+            }
+        },
+        navigationIcon = {
+            // Ícono del menú desplegable a la izquierda
+            IconButton(onClick = { expanded = true }) {
+                Icon(
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = "Menú desplegable"
+                )
+            }
+        },
         actions = {
+            IconButton(onClick = {/*TODO*/}) {
+                Icon (
+                    imageVector = Icons.Default.DateRange,
+                    contentDescription = null
+                )
+            }
             IconButton(onClick = {/*TODO*/}) {
                 Icon (
                     imageVector = Icons.Default.Settings,
@@ -85,6 +114,23 @@ fun CustomTopBar() {
             }
         }
     )
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false }
+    ) {
+        DropdownMenuItem(
+            text = { Text("Opción 1") },
+            onClick = { expanded = false } // Acciones si se selecciona algo
+        )
+        DropdownMenuItem(
+            text = { Text("Opción 2") },
+            onClick = { expanded = false }
+        )
+        DropdownMenuItem(
+            text = { Text("Opción 3") },
+            onClick = { expanded = false }
+        )
+    }
 }
 
 @Composable
@@ -143,6 +189,8 @@ fun CustomContent(padding: PaddingValues) {
         }
     )
 }
+
+
 
 // Función de vista previa que permite ver cómo se verá la interfaz sin ejecutar la app
 @Preview(showBackground = true) // Habilita el fondo para que sea visible
