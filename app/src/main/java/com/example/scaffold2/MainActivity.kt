@@ -4,6 +4,7 @@ package com.example.scaffold2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,21 +22,25 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.scaffold2.ui.theme.Scaffold2Theme
 
@@ -63,9 +68,11 @@ fun CustomScaffold() {
 
         // Barra inferior
         bottomBar = { CustomBottomBar() },
-
+        /*
         // Botón flotante personalizado
         floatingActionButton = { CustomFAB() },
+
+         */
 
         // Contenido principal
         content = { padding ->
@@ -79,7 +86,13 @@ fun CustomScaffold() {
 fun CustomTopBar() {
     var expanded by remember { mutableStateOf(false) } // Controla si el menú está desplegado
     TopAppBar(
-
+        // Colores personalizados para la barra superior
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color(0xFF009688), // Color de fondo
+            titleContentColor = Color.White, // Color del texto del título
+            navigationIconContentColor = Color.White, // Color del icono de navegación
+            actionIconContentColor = Color.White // Color de los iconos de acción
+        ),
         // Título de la barra superior
         title = {
             // Contenedor para centrar el texto
@@ -135,7 +148,10 @@ fun CustomTopBar() {
 
 @Composable
 fun CustomBottomBar() {
-    BottomAppBar() {
+    BottomAppBar(
+        containerColor = Color(0xFF009688), // Cambiar el color de fondo
+        contentColor = Color.White // Cambiar el color de los íconos
+    ) {
         Row (
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
@@ -158,13 +174,22 @@ fun CustomBottomBar() {
                     contentDescription = null
                 )
             }
+            FloatingActionButton(onClick = {/*TODO*/},shape=MaterialTheme.shapes.extraLarge) {
+                IconButton(onClick = {/*TODO*/}) {
+                    Icon (
+                        imageVector = Icons.Default.Add,
+                        contentDescription = null
+                    )
+                }
+            }
         }
     }
 }
 
+/*
 @Composable
 fun CustomFAB() {
-    FloatingActionButton(onClick = {/*TODO*/}) {
+    FloatingActionButton(onClick = {/*TODO*/},shape=MaterialTheme.shapes.extraLarge) {
         IconButton(onClick = {/*TODO*/}) {
             Icon (
                 imageVector = Icons.Default.Add,
@@ -173,6 +198,8 @@ fun CustomFAB() {
         }
     }
 }
+
+ */
 
 @Composable
 fun CustomContent(padding: PaddingValues) {
